@@ -1,0 +1,31 @@
+services:
+  docker-telegram-alerts:
+    image: ghcr.io/trojak3d/docker-telegram-alerts:latest
+    container_name: docker-telegram-alerts
+    mem_limit: 96m
+    cpus: 0.10
+    environment:
+      - ALERT_HOSTNAME=${ALERT_HOSTNAME}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - TELEGRAM_MESSAGE_PREFIX=${TELEGRAM_MESSAGE_PREFIX}
+      - TELEGRAM_DISABLE_NOTIFICATION=${TELEGRAM_DISABLE_NOTIFICATION}
+      - TELEGRAM_MESSAGE_THREAD_ID=${TELEGRAM_MESSAGE_THREAD_ID}
+      - TZ=${TZ}
+    labels:
+      com.example.stack: "dev"
+      com.example.service: "docker-telegram-alerts"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: ["CMD-SHELL", "test -S /var/run/docker.sock && docker version >/dev/null 2>&1 || exit 1"]
+      interval: 30m
+      timeout: 15s
+      retries: 3
+      start_period: 1m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: unless-stopped
