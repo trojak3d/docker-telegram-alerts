@@ -3,7 +3,7 @@
 [![GitHub Repo](https://img.shields.io/badge/GitHub-trojak3d/docker--telegram--alerts-blue?logo=github)](https://github.com/trojak3d/docker-telegram-alerts)  
 [![GHCR](https://img.shields.io/badge/GHCR-ghcr.io%2Ftrojak3d%2Fdocker--telegram--alerts-blue?logo=github)](https://ghcr.io/trojak3d/docker-telegram-alerts)
 
-A lightweight Docker helper container that monitors the Docker Engine event stream and sends Telegram notifications when containers become unhealthy, recover, die, or run out of memory.
+A lightweight Docker helper container that monitors the Docker Engine event stream and sends Telegram notifications when containers start, stop, are killed, begin health checks, become unhealthy, recover, die, or run out of memory.
 
 ## How it works
 
@@ -19,6 +19,10 @@ Monitored events:
 
 | Event | Alert sent |
 |---|---|
+| `start` | Status: container started |
+| `stop` | Status: container stopped |
+| `kill` | Status: container killed |
+| `health_status: starting` | Status: healthcheck starting |
 | `health_status: unhealthy` | Status: unhealthy |
 | `health_status: healthy` | Status: recovered |
 | `die` | Status: container died (with exit code) |
