@@ -81,6 +81,18 @@ while IFS='|' read -r action container_id container_name image_name stack_name s
   extra_line="Container ID: $container_id"
 
   case "$action" in
+    'start')
+      message="$(build_message 'Status: container started' "$container_name" "$image_name" "$stack_name" "$service_name" "$extra_line")"
+      ;;
+    'stop')
+      message="$(build_message 'Status: container stopped' "$container_name" "$image_name" "$stack_name" "$service_name" "$extra_line")"
+      ;;
+    'kill')
+      message="$(build_message 'Status: container killed' "$container_name" "$image_name" "$stack_name" "$service_name" "$extra_line")"
+      ;;
+    'health_status: starting')
+      message="$(build_message 'Status: healthcheck starting' "$container_name" "$image_name" "$stack_name" "$service_name" "$extra_line")"
+      ;;
     'health_status: unhealthy')
       message="$(build_message 'Status: unhealthy' "$container_name" "$image_name" "$stack_name" "$service_name" "$extra_line")"
       ;;
